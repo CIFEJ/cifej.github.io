@@ -1,12 +1,4 @@
-/*
-  Hooks JS activos en estos componentes (no eliminar del HTML aunque no tengan regla CSS propia):
-    .carousel-arrow  → home.js      prevSel/nextSel: '.carousel-arrow.prev/.next'
-    .carousel-dot    → home.js      dotSel:          '.carousel-dot'
-    .slider-arrow    → servicios.js prevSel/nextSel: '.slider-arrow.prev/.next'
-    .dot             → servicios.js dotSel:          '.dot'
-  El estilo de estos elementos lo proveen las clases BEM compartidas:
-    .nav-arrow, .nav-arrow--light/--dark, .nav-dot, .nav-dot--light/--dark
-*/
+/* Slider / Carousel controls */
 .slider-controls,
 .carousel-controls {
   display: flex;
@@ -16,7 +8,6 @@
   margin-top: var(--gap-sm);
 }
 
-/* Carousel usa gap-md; la regla agrupada arriba aplica gap-sm como base compartida */
 .carousel-controls {
   margin-top: var(--gap-md);
 }
@@ -28,7 +19,7 @@
   gap: 10px;
 }
 
-/* Base compartida: tamaño, forma, cursor y transición */
+/* Shared base: size, shape, cursor, transition */
 .nav-arrow {
   border: none;
   border-radius: 50%;
@@ -46,17 +37,15 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
-/* Variante oscura: fondo verde, texto beige — slider de servicios */
 .nav-arrow--dark {
-  background: var(--color-verde);
+  background: var(--color-green);
   color: var(--color-beige);
   line-height: 0;
 }
 .nav-arrow--dark:hover {
-  background-color: var(--color-cafe);
+  background-color: var(--color-brown);
 }
 
-/* Variante clara: fondo blanco, texto negro — carousel de testimonios */
 .nav-arrow--light {
   background: #fff;
   color: #111;
@@ -64,11 +53,10 @@
   line-height: 0;
 }
 .nav-arrow--light:hover {
-  background-color: var(--color-gris);
+  background-color: var(--color-gray);
 }
 
-/* ── Dots de navegación (slider y carousel) ── */
-/* Base compartida: tamaño, forma, cursor y transición */
+/* Navigation dots */
 .nav-dot {
   height: clamp(10px, 1.2vw, 18px);
   width: clamp(10px, 1.2vw, 18px);
@@ -78,23 +66,21 @@
   transition: background-color 0.3s ease;
 }
 
-/* Variante oscura: verde sobre fondo claro — slider de servicios */
 .nav-dot--dark {
   background-color: rgba(32, 64, 50, 0.35);
 }
 .nav-dot--dark.active {
-  background-color: var(--color-verde);
+  background-color: var(--color-green);
 }
 
-/* Variante clara: beige sobre fondo oscuro — carousel de testimonios */
 .nav-dot--light {
   background-color: rgba(239, 232, 208, 0.4);
 }
 .nav-dot--light.active {
   background-color: var(--color-beige);
 }
-/* ── Tarjeta genérica ── */
-/* Estructura base compartida por .slider-item y .conafor-card */
+
+/* Generic card */
 .card {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -102,9 +88,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* ── Sección con fondo de imagen (patrón compartido) ── */
-/* Usada por: .intro-servicios, .galeria-container, .faq-section, .contacto-container
-   Cada CSS de página solo sobreescribe background-image y dimensiones específicas. */
+/* Image background section */
 .bg-section {
   position: relative;
   width: 100%;
@@ -114,11 +98,7 @@
   overflow: hidden;
 }
 
-/* ── Tipografía de sección (patrón compartido) ── */
-/* Elimina la repetición de font-family en cada CSS de página.
-   .section-title: Raleway bold — para h1, h2, h3 de sección.
-   .section-body:  Nunito       — para párrafos y listas de sección.
-   El font-size sigue declarándose en cada CSS de página porque varía por contexto. */
+/* Section typography */
 .section-title {
   font-family: var(--font-titles);
   font-weight: 700;
@@ -128,25 +108,15 @@
   font-family: var(--font-body);
 }
 
-/* ── Banner de página interior (patrón compartido) ── */
-/* Todas las páginas interiores comparten este contenedor.
-   Solo la altura varía — se sobreescribe en el CSS de cada página. */
+/* Inner page banner */
 .page-banner {
   position: relative;
   width: 100%;
   height: clamp(150px, 30vw, 500px);
   overflow: hidden;
+  background-color: var(--color-green); /* ponytail: placeholder while banner image loads */
 }
 
-/* ── Banner background image (patrón compartido) ── */
-/*
-  Patrón de imagen de banner robusto:
-  - <img class="banner-bg"> dentro del contenedor posicionado
-  - object-fit: cover replica background-size: cover
-  - object-position configurable por página via CSS específico
-  - fetchpriority="high" en HTML para LCP
-  - aria-hidden="true" en HTML porque es puramente decorativo
-*/
 .banner-bg {
   position: absolute;
   inset: 0;
@@ -158,7 +128,7 @@
   pointer-events: none;
 }
 
-/* ── Header ── */
+/* Header */
 .header-image {
   display: flex;
   justify-content: flex-end;
@@ -170,10 +140,9 @@
   gap: var(--gap-sm);
 }
 
-/* Link del logo — solo el <a> que envuelve el img hereda el cursor y elimina decoración */
 .header-image a {
   display: flex;
-  line-height: 0; /* elimina espacio fantasma bajo el img */
+  line-height: 0;
   cursor: pointer;
 }
 
@@ -185,20 +154,19 @@
   font-family: var(--font-titles);
   font-size: var(--text-inst);
   font-weight: 700;
-  color: var(--color-verde);
+  color: var(--color-green);
   line-height: 1.4;
   margin-right: 2%;
   max-width: 55%;
 }
 
-/* Divide el nombre en dos líneas en cualquier pantalla */
 .header-image p .inst-break {
   display: block;
 }
 
-/* ── Navbar ── */
+/* Navbar */
 .menu {
-  background-color: var(--color-verde);
+  background-color: var(--color-green);
   padding: clamp(8px, 1.2vw, 16px) 0;
 }
 
@@ -220,7 +188,7 @@
 }
 
 .nav-list a:hover {
-  color: var(--color-gris);
+  color: var(--color-gray);
 }
 .nav-list a.active {
   color: #fff;
@@ -228,7 +196,7 @@
   padding-bottom: 2px;
 }
 
-/* Hamburger (móvil) */
+/* Hamburger (mobile) */
 .nav-toggle {
   display: none;
   background: var(--color-beige);
@@ -237,12 +205,10 @@
   padding: 6px 10px;
   cursor: pointer;
   font-size: 1.25rem;
-  color: var(--color-verde);
+  color: var(--color-green);
 }
 
 @media (max-width: 767px) {
-  /* FIX: min-height garantiza que el botón hamburger tenga espacio aunque
-     nav-list esté colapsada (max-height: 0) */
   .menu {
     position: relative;
     min-height: 48px;
@@ -262,7 +228,7 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-    background-color: var(--color-verde);
+    background-color: var(--color-green);
   }
 
   .nav-list.open {
@@ -277,7 +243,7 @@
   }
 }
 
-/* ── Botones ── */
+/* Buttons */
 .btn {
   display: inline-block;
   font-family: var(--font-titles);
@@ -293,45 +259,44 @@
 
 .btn-beige {
   background-color: var(--color-beige);
-  color: var(--color-verde);
+  color: var(--color-green);
   font-size: var(--text-xl);
   padding: 4px 14px;
 }
 
-.btn-verde {
-  background-color: var(--color-verde);
+.btn-green {
+  background-color: var(--color-green);
   color: var(--color-beige);
   font-size: var(--text-lg);
   padding: 8px 16px;
 }
 
-.btn-blanco {
+.btn-white {
   background-color: #fff;
-  color: var(--color-verde);
+  color: var(--color-green);
   font-size: var(--text-lg);
   padding: 8px 16px;
 }
 
-.btn-verde:hover {
-  background-color: var(--color-cafe);
+.btn-green:hover {
+  background-color: var(--color-brown);
   color: var(--color-beige);
 }
 .btn-beige:hover {
-  background-color: var(--color-cafe);
+  background-color: var(--color-brown);
   color: var(--color-beige);
 }
 
-/* ── Footer ── */
+/* Footer */
 .footer {
   position: relative;
   padding: 1.5% 2%;
-  padding-top: clamp(40px, 6vw, 90px); /* espacio para la onda */
+  padding-top: clamp(40px, 6vw, 90px);
   background-color: var(--color-beige);
-  color: var(--color-verde);
+  color: var(--color-green);
   margin-top: 0;
 }
 
-/* Onda decorativa integrada como pseudoelemento — no depende de imagen externa */
 .footer::before {
   content: '';
   position: absolute;
@@ -355,28 +320,28 @@
   margin: 0 auto;
 }
 
-.menu-footer {
+.footer-menu {
   display: flex;
   gap: clamp(1rem, 3vw, 2.5rem);
   flex-wrap: wrap;
 }
 
-.menu-footer a {
+.footer-menu a {
   font-family: var(--font-body);
   font-weight: 700;
   font-size: var(--text-sm);
-  color: var(--color-verde);
+  color: var(--color-green);
   transition: color 0.3s ease;
 }
 
-.menu-footer a:hover {
+.footer-menu a:hover {
   text-decoration: underline;
-  color: var(--color-cafe);
+  color: var(--color-brown);
 }
 
 .copyright {
   font-family: var(--font-body);
-  font-size: var(--text-sm); /* subido de --text-xs */
+  font-size: var(--text-sm);
   font-weight: 400;
   text-align: right;
 }
@@ -389,14 +354,13 @@
   .copyright {
     text-align: center;
   }
-  /* Footer nav: font-size sube un escón en móvil para mejor legibilidad */
-  .menu-footer a {
+  .footer-menu a {
     font-size: var(--text-base);
   }
 }
 
-/* ── Sección "Contáctanos" (compartida: Nosotros + fondo de otras páginas) ── */
-.contacto-container {
+/* Shared CTA section */
+.cta-container {
   position: relative;
   width: 100%;
   min-height: clamp(200px, 30vw, 500px);
@@ -408,7 +372,7 @@
   padding: clamp(20px, 5vw, 80px);
 }
 
-.contacto-content {
+.cta-content {
   position: relative;
   z-index: 2;
   color: var(--color-beige);
@@ -416,32 +380,21 @@
   padding-top: 5%;
 }
 
-.contacto-content h3 {
+.cta-content h3 {
   font-family: var(--font-titles);
   font-weight: 700;
   font-size: var(--text-3xl);
   margin-bottom: 1rem;
 }
 
-.contacto-content p {
+.cta-content p {
   font-family: var(--font-body);
   font-size: var(--text-md);
   margin-bottom: 1.5rem;
 }
 
-/* ── Viñetas decorativas (componentes compartidos) ── */
-/*
-  Todos los assets de viñeta y sus dimensiones reales:
-    vinetasBeige.webp   34×68px  aspect-ratio 34/68  — fondo oscuro (banner, testimonial, contacto)
-    vinetasVerdesuave.webp 34×69px aspect-ratio 34/69 — fondo claro (nosotros)
-    vinetaBeige.webp    34×31px  aspect-ratio 34/31  — viñeta de lista (casi cuadrado)
-
-  Ancho unificado: clamp(26px, 2.2vw, 38px) en todas las variantes.
-  aspect-ratio reemplaza height fijo para respetar proporciones del asset.
-*/
-
-/* Viñeta de sección — separador decorativo entre bloques (nosotros.html) */
-.vineta-container {
+/* Decorative vignettes */
+.vignette-container {
   margin-left: 6%;
   margin-bottom: 3%;
   width: clamp(26px, 2.2vw, 38px);
@@ -452,8 +405,7 @@
   background-position: left top;
 }
 
-/* Viñeta en esquina superior derecha del fondo CTA de contacto */
-.contacto-icon {
+.cta-icon {
   position: absolute;
   top: clamp(20px, 3vw, 40px);
   right: clamp(20px, 4vw, 80px);
@@ -466,7 +418,6 @@
   pointer-events: none;
 }
 
-/* Viñeta en esquina inferior izquierda del banner principal (index.html) */
 .banner-icon {
   position: absolute;
   bottom: clamp(10px, 3vw, 40px);
@@ -480,7 +431,6 @@
   pointer-events: none;
 }
 
-/* Viñeta en esquina superior derecha del carousel de testimonios (index.html) */
 .testimonial-icon {
   position: absolute;
   top: clamp(15px, 3vw, 40px);
@@ -494,8 +444,7 @@
   pointer-events: none;
 }
 
-/* Viñeta de ítem de lista en sección Nuestra Causa (index.html) */
-.lista li::before {
+.bullet-list li::before {
   content: '';
   position: absolute;
   left: 0;
@@ -508,23 +457,15 @@
   flex-shrink: 0;
 }
 
-/* Ocultar viñetas decorativas y dots de navegación en pantallas muy pequeñas */
 @media (max-width: 767px) {
-  .vineta-container {
-    display: none;
-  }
-  .contacto-icon {
-    display: none;
-  }
-  .banner-icon {
-    display: none;
-  }
+  .vignette-container,
+  .cta-icon,
+  .banner-icon,
   .testimonial-icon {
     display: none;
   }
 }
 
-/* En móvil: botones de nav más grandes y más separados en sliders y carousel */
 @media (max-width: 767px) {
   .slider-controls,
   .carousel-controls {
@@ -542,8 +483,6 @@
   }
 }
 
-/* En móvil pequeño los dots de 10px flotan sin ser accionables con el dedo.
-   Se ocultan y la navegación queda en las flechas (siempre visibles). */
 @media (max-width: 480px) {
   .nav-dot {
     display: none;

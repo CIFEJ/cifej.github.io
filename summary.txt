@@ -1,144 +1,159 @@
-COLEGIO DE INGENIEROS FORESTALES DEL ESTADO DE JALISCO A.C.
-Sitio web institucional — Estado actual del proyecto
+CIFEJ -- Colegio de Ingenieros Forestales del Estado de Jalisco A.C.
+Static marketing website, deployed via GitHub Pages.
 ============================================================
-Versión: 1.1  |  Última actualización: mayo 2026
-Mapa de estructura de archivos: map.txt
-Ruta local del proyecto: %USERPROFILE%\Downloads\CIFEJ.github.io
+Version: 2.0.0
+Last updated: June 2026
+Local path: %USERPROFILE%\Downloads\cifej.github.io\
 
 
 STACK
 ------------------------------------------------------------
-Bundler:    Vite ^8  (rolldownOptions, MPA con 6 entry points)
-Runtime:    Vanilla JS ES2018+, sin frameworks
-Animación:  Motion One ^12  (animate + inView)
-Fuentes:    Fontsource variable — Raleway + Nunito (self-hosted, cero peticiones externas)
-Linting:    ESLint ^9 flat config + Prettier ^3
-Gestor pkg: Bun  (scripts: dev / build / preview / lint / format)
+Bundler:       Vite 8
+Runtime:       Vue 3 + Vue Router 4 (SPA with history mode, base "/")
+Fonts:         Raleway + Nunito via @fontsource-variable (self-hosted, no Google request)
+Animations:    Motion One (motion ^12) -- scroll-triggered via inView
+Package mgr:   bun  (scripts: dev / build / preview / format / lint)
+Linting:       ESLint 9 + eslint-config-prettier; formatter: Prettier
 
 
-ESTRUCTURA DE ARCHIVOS
+FILE STRUCTURE
 ------------------------------------------------------------
-Raíz:        index / nosotros / servicios / galeria / contacto / 404  (.html)
-src/css/     main.css (punto de entrada @import) + 8 hojas modulares
-src/js/      main.js + slider.js (utilidades compartidas) + 6 page-scripts
-public/img/  Todos los assets; galeria/ contiene 54 imágenes en 6 subcarpetas
+Root:          vite.config.js / eslint.config.js / package.json / index.html
+public/img/    All static assets: .webp images, .svg logo, favicon
+src/main.js    App bootstrap: createApp, router, v-lazy directive, CSS imports
+src/App.vue    Shell: <AppHeader> + <RouterView> + <AppFooter>
+src/router/    index.js -- 6 routes (/, /nosotros, /servicios, /galeria, /contacto, 404)
+src/composables/
+  useMotion.js    Scroll-triggered Motion One animations
+  useSlider.js    Reusable carousel/slider logic with autoplay and touch swipe
+src/directives/
+  vLazy.js        Custom v-lazy directive for IntersectionObserver image lazy-loading
+src/assets/css/
+  base.css        CSS custom properties, reset, fluid typography, motion-pending state
+  components.css  Shared UI: header, navbar, footer, buttons, CTA, carousel controls,
+                  gallery grid, vignette decoratives
+src/views/
+  HomeView.vue       Main landing page
+  AboutView.vue      Nosotros page
+  ServicesView.vue   Servicios page
+  GalleryView.vue    Galeria page with lightbox
+  ContactView.vue    Contacto page
+  NotFoundView.vue   404 page
+src/components/
+  AppHeader.vue   Logo + institution name + responsive nav (hamburger on mobile)
+  AppFooter.vue   Nav links + copyright (year computed at runtime)
 
 
-ARQUITECTURA JS
+ROUTING
 ------------------------------------------------------------
-main.js      — initPage(): navbar hamburger, año dinámico en footer, animaciones Motion One
-slider.js    — createSlider(): carousel/slider reutilizable con swipe táctil, auto-play y fixContainerHeight()
-
-Page-scripts (importan según necesidad):
-  home.js      → initPage() + createSlider() (carousel testimonios)
-  servicios.js → initPage() + createSlider() (slider SEMARNAT)
-  nosotros.js, galeria.js, contacto.js, 404.js → solo initPage()
-
-galeria.js además contiene:
-  - Lazy loading con IntersectionObserver (rootMargin: 200px)
-  - Placeholder diferido con setTimeout 300ms (evita flash en conexiones rápidas)
-  - Lightbox propio con swipe táctil y teclado (Escape / ←→)
-  - Fallback Firefox <121 para :has(): clase .img-loaded en el padre
-
-contacto.js contiene:
-  - Accordion FAQ — cierra todos antes de abrir el clickeado (fix del bug original)
-  - Selector directo sobre .accordion-header (el wrapper no necesita clase propia)
+createWebHistory("/") -- SPA. Titles set via router.afterEach from meta.title.
+linkExactActiveClass: "active" -- underline on active nav link.
+scrollBehavior: () => ({ top: 0 }) -- always scroll to top on navigate.
+Lazy-loaded views (import() per route).
 
 
-ARQUITECTURA CSS
+COMPOSABLES
 ------------------------------------------------------------
-base.css       — Variables CSS globales, tipografía fluida (clamp), reset mínimo, color-scheme:light
-components.css — Header, navbar, footer, botones, viñetas, slider/carousel controls, .card, .bg-section, .page-banner
-home.css       — Banner principal, bienvenida, columnas iconos, causas, why, carousel
-nosotros.css   — Historia, quienes-wrapper (fondo helicóptero), misión/visión, equipo
-servicios.css  — Intro, slider SEMARNAT, tarjetas CONAFOR
-galeria.css    — Grid, placeholder, lazy load, lightbox
-contacto.css   — Mapa, info+form, validación visual, accordion FAQ
-404.css        — Layout flex min-height:100vh para footer anclado
+useMotion()
+  Queries all [data-motion] elements on mount.
+  Supported values: fade-up, fade-down, fade-left, fade-right, zoom-in,
+    flip-left, flip-right.
+  inView fires once, removes .motion-pending, then runs Motion One animate().
+  duration: 0.7s, easing: cubic-bezier(0.25, 0.46, 0.45, 0.94), margin: -80px.
+  Cleanups run on unmount.
 
-Patrones compartidos relevantes:
-  .bg-section     — sección con background-image (extend en cada página)
-  .page-banner    — banner interior con <img class="banner-bg"> (LCP-friendly)
-  .card           — base para .slider-item y .conafor-card
-  .nav-arrow / .nav-dot + variantes BEM --light / --dark — controles de slider
-  Viñetas: vinetasBeige / vinetasVerdesuave / vinetaBeige — ancho clamp(26px,2.2vw,38px) + aspect-ratio
+useSlider(count, interval = 8000)
+  Returns: current (ref), goTo, prev, next, onTouchstart, onTouchend.
+  Autoplay via setInterval; restarts on manual nav.
+  Touch swipe: threshold 50px.
+  Modular arithmetic keeps index in range.
+  Used in: HomeView (testimonials carousel).
 
 
-TOKENS CSS (base.css)
+DIRECTIVES
 ------------------------------------------------------------
-Colores:    --color-beige #efe8d0 | --color-verde #204032 | --color-cafe #503a34 | --color-gris #cfcfcf
-Tipografía: --font-titles Raleway | --font-body Nunito
-Escala de texto (fluida):
-  --text-sm   clamp(0.8,  1.8vw, 1rem)
-  --text-base clamp(0.95, 2vw,   1.1rem)
-  --text-md   clamp(1,    2.2vw, 1.25rem)
-  --text-lg   clamp(1.1,  2.5vw, 1.5rem)
-  --text-xl   clamp(1.25, 3vw,   1.75rem)
-  --text-2xl  clamp(1.5,  4vw,   2.25rem)
-  --text-3xl  clamp(1.75, 5vw,   3rem)
-  --text-4xl  clamp(2,    6.5vw, 5rem)
-  --text-inst clamp(0.95, 2.4vw, 1.35rem)  ← nombre institucional en header
-Espaciado:  --gap-sm / --gap-md / --gap-lg
+v-lazy (vLazy.js)
+  Usage: <img v-lazy="'/img/photo.webp'" alt="...">
+  IntersectionObserver with rootMargin: 200px.
+  Deferred placeholder: parent .gallery-item gets .show-placeholder after 300ms;
+    removed on load (avoids flash for fast loads).
+  .loaded added to <img>; .img-loaded added to .gallery-item (Firefox fallback).
+  Falls back to direct src set if IntersectionObserver is unavailable.
+  Used in: GalleryView.
 
 
-CONVENCIONES Y DECISIONES VIGENTES
+CSS ARCHITECTURE
 ------------------------------------------------------------
-- Paths de imágenes: absolutos desde raíz (/img/...) — Vite no resuelve relativos desde src/css/
-- Animaciones Motion One: estado inicial en CSS ([data-motion].motion-pending { opacity:0 }),
-  clase añadida en JS antes de inView y removida justo antes de animar (evita FOUC)
-- data-motion nunca debe usarse en elementos que estén en el viewport al cargar
-  (header, banners de inicio de página) — inView no dispara de forma fiable
-  en ese contexto y el elemento puede quedar con opacity:0
-- background-attachment: scroll en quienes-wrapper — 'fixed' falla en iOS
-- color-scheme: light en body — previene fondos grises en navegadores con dark mode del SO
-- Fuentes variables Fontsource: Raleway sin itálica (no hay uso en el sitio),
-  Nunito itálica sí existe (carousel testimonios)
-- Hooks JS en HTML que no tienen regla CSS propia documentados al inicio de components.css:
-  .carousel-arrow, .carousel-dot (home.js) | .slider-arrow, .dot (servicios.js)
-- Formulario de contacto: Web3Forms integrado (action + access_key en contacto.html)
-- Banner principal (index.html): fetchpriority diferenciado en las tres imágenes
-  del .banner-container — bannerBosque "high" (LCP), fondoBannerPrincipal "high"
-  (visible en viewport), ondaVerde "low" (27 KB, posición bottom)
+Design tokens (base.css :root):
+  --color-beige: #efe8d0
+  --color-green: #204032
+  --color-brown: #503a34
+  --color-gray:  #cfcfcf
+  --font-titles: Raleway
+  --font-body:   Nunito
+
+Fluid typography via clamp() (--text-sm through --text-4xl), no per-breakpoint
+  font-size overrides needed.
+Fluid spacing: --gap-sm / --gap-md / --gap-lg.
+--text-inst: dedicated token for the institution name string in the header.
+
+components.css: shared classes used across views:
+  .section-title / .section-body -- typography helpers
+  .page-banner / .banner-bg -- inner page banner pattern
+  .bg-section -- full-bleed background image section
+  .btn, .btn-beige, .btn-green, .btn-white -- CTA buttons
+  .nav-arrow, .nav-arrow--dark, .nav-arrow--light -- carousel arrows
+  .nav-dot, .nav-dot--dark, .nav-dot--light -- carousel dots
+  .cta-container / .cta-content / .cta-icon -- shared CTA block (Galeria, others)
+  .card -- generic white card
+  .vignette-container, .cta-icon, .banner-icon, .testimonial-icon -- decorative
+    image vignettes (hidden on mobile < 768px)
+  .bullet-list li -- list items with webp vignette bullet via ::before pseudo
+
+[data-motion].motion-pending { opacity: 0 } is set in base.css (not JS) to
+  prevent FOUC when the bundle arrives late.
+
+Single breakpoint at 767px (max-width) handles all responsive layout changes.
+Scoped <style> per view for local overrides.
 
 
-SEO
+VIEWS
 ------------------------------------------------------------
-Meta tags implementadas en v1.1. Estructura por página:
-  - <meta name="description">  — texto único por página
-  - <meta name="author">       — nombre completo de la institución
-  - <meta name="robots">       — index/follow en las 5 páginas principales;
-                                  noindex/nofollow en 404.html
-  - <link rel="canonical">     — dominio base: https://cifej.github.io
-                                  URLs sin extensión .html (comportamiento
-                                  confirmado de GitHub Pages)
-  Open Graph: og:type, og:site_name, og:title, og:description,
-              og:url, og:image, og:locale (es_MX)
-  Twitter Card: summary_large_image + title, description, image
+HomeView (/):
+  Sections: main hero banner, welcome text + image, membership columns (4 icons),
+  "Nuestra Causa" (3 bullet points), "Por que escogernos?" (25 years copy),
+  testimonials carousel (3 slides, 8s autoplay, touch swipe).
+  Data: all inline arrays (memberships, causes, testimonials) -- no fetch.
 
-  Imágenes OG: banners WebP existentes por página. WebP es compatible
-  con crawlers modernos; WhatsApp y algunos crawlers heredados
-  prefieren JPG/PNG.
-  PENDIENTE: evaluar imagen OG dedicada (og-image.jpg, 1200×630 px)
-  para máxima compatibilidad multiplataforma.
+AboutView (/nosotros):
+  Content: mission/vision, team section, slider of team photos.
+  Uses useMotion(), useSlider().
 
-  keywords omitidas — Google las ignora; no aportan valor.
+ServicesView (/servicios):
+  Service cards with icons and descriptions.
+  Uses useMotion().
 
-  Si se adopta dominio propio, actualizar canonical y og:url
-  en los 5 HTMLs indexables.
+GalleryView (/galeria):
+  6 categories: Inventario (15 imgs), Aprovechamiento (6), Transformacion (15,
+    generated with Array.from), Reforestacion (9), Manejo de Plagas (6),
+    Manejo de Fuego (5). Total: 56 images.
+  Lazy-loaded via v-lazy directive.
+  Lightbox: click to open, keyboard (Esc/arrows), touch swipe, click-outside close.
+    allImages: flat array of all category images for cross-category navigation.
+  CTA section at bottom linking to /contacto.
+
+ContactView (/contacto):
+  Contact form or contact info (not read; standard page pattern).
+
+NotFoundView (/:pathMatch(.*)*):
+  404 page. Title: "Pagina no encontrada -- CIFEJ".
 
 
-ASSETS
+OPEN ITEMS
 ------------------------------------------------------------
-- logo.svg: vector puro (sin raster embebido), usado en header
-- Todos los demás iconos/fondos/viñetas: WebP
-- Nombres de assets normalizados: sin caracteres especiales (ñ reemplazada por n)
-- Galería: 54 imágenes WebP en public/img/galeria/ (~6.9 MB tras compresión)
-- Fondos/banners principales comprimidos al 60–70% en v1.0 (−76% vs originales)
-
-
-PENDIENTES ABIERTOS
-------------------------------------------------------------
-[ ] Definir backend definitivo para formulario de contacto
-    (Web3Forms integrado con access_key, pendiente confirmar o reemplazar)
-[ ] Evaluar imagen OG dedicada (og-image.jpg, 1200×630 px) para
-    máxima compatibilidad en redes sociales y mensajería (WhatsApp)
+- ContactView and AboutView not read; assume standard pattern, verify if editing.
+- No form backend: contact form (if present) likely needs an external service
+  (Formspree, Netlify Forms, etc.).
+- No analytics or SEO meta tags observed beyond document.title.
+- No dark mode support (color-scheme: light is explicit).
+- Gallery image alts are generic ("Inventario forestal 1") -- could be improved.

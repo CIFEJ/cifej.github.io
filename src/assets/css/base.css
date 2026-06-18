@@ -1,0 +1,90 @@
+/* Self-hosted fonts via Fontsource (variables). No Google request.
+   Raleway: weights 400/700/900 (normal) - italic not used on the site.
+   Nunito:  weights 400/600/700 (normal). */
+@import '@fontsource-variable/raleway';
+@import '@fontsource-variable/nunito';
+
+:root {
+  /* Colors */
+  --color-beige: #efe8d0;
+  --color-green: #204032;
+  --color-brown: #503a34;
+  --color-gray: #cfcfcf;
+
+  /* Fonts */
+  --font-titles: 'Raleway', sans-serif; /* h1-h3, buttons, quotes */
+  --font-body: 'Nunito', sans-serif; /* paragraphs, lists, UI */
+
+  /* Fluid typography: removes most per-breakpoint overrides */
+  --text-sm: clamp(0.8rem, 1.8vw, 1rem);
+  --text-base: clamp(0.95rem, 2vw, 1.1rem);
+  --text-md: clamp(1rem, 2.2vw, 1.25rem);
+  --text-lg: clamp(1.1rem, 2.5vw, 1.5rem);
+  --text-xl: clamp(1.25rem, 3vw, 1.75rem);
+  --text-2xl: clamp(1.5rem, 4vw, 2.25rem);
+  --text-3xl: clamp(1.75rem, 5vw, 3rem);
+  --text-4xl: clamp(2rem, 6.5vw, 5rem);
+
+  /* Spacing */
+  --gap-sm: clamp(0.5rem, 2vw, 1rem);
+  --gap-md: clamp(1rem, 3vw, 2rem);
+  --gap-lg: clamp(1.5rem, 4vw, 3rem);
+
+  /* Institution name: dedicated token */
+  --text-inst: clamp(0.95rem, 2.4vw, 1.35rem);
+}
+
+/* Minimal reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-green);
+  overflow-x: hidden;
+  color-scheme: light;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Initial state for Motion One animations.
+   Keeping this in CSS (not JS) avoids FOUC: if the script arrives late,
+   the element is already invisible via stylesheet and does not flash.
+   The class is removed in useMotion just before animating. */
+[data-motion].motion-pending {
+  opacity: 0;
+}
