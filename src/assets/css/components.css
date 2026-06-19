@@ -114,7 +114,9 @@
   width: 100%;
   height: clamp(150px, 30vw, 500px);
   overflow: hidden;
-  background-color: var(--color-green); /* ponytail: placeholder while banner image loads */
+  background-color: var(
+    --color-green
+  ); /* ponytail: placeholder while banner image loads */
 }
 
 .banner-bg {

@@ -2,12 +2,35 @@
   <main>
     <!-- Main banner -->
     <div class="banner-container">
-      <img src="/img/bannerBosque.webp" alt="" class="banner-bg" aria-hidden="true" fetchpriority="high">
-      <img src="/img/fondoBannerPrincipal.webp" alt="" class="banner-img-left" aria-hidden="true" fetchpriority="high">
-      <img src="/img/ondaVerde.webp" alt="" class="banner-img-bottom" aria-hidden="true" fetchpriority="low">
+      <img
+        src="/img/bannerBosque.webp"
+        alt=""
+        class="banner-bg"
+        aria-hidden="true"
+        fetchpriority="high"
+      />
+      <img
+        src="/img/fondoBannerPrincipal.webp"
+        alt=""
+        class="banner-img-left"
+        aria-hidden="true"
+        fetchpriority="high"
+      />
+      <img
+        src="/img/ondaVerde.webp"
+        alt=""
+        class="banner-img-bottom"
+        aria-hidden="true"
+        fetchpriority="low"
+      />
       <div class="banner-content">
-        <h1 class="section-title">Ingeniería Forestal para un futuro sostenible</h1>
-        <h3 class="section-body">Construyendo un futuro verde: explora cómo estamos cultivando hoy para un mañana más verde.</h3>
+        <h1 class="section-title">
+          Ingeniería Forestal para un futuro sostenible
+        </h1>
+        <h3 class="section-body">
+          Construyendo un futuro verde: explora cómo estamos cultivando hoy para
+          un mañana más verde.
+        </h3>
         <RouterLink to="/servicios" class="btn btn-beige">SERVICIOS</RouterLink>
       </div>
       <div class="banner-icon" aria-hidden="true"></div>
@@ -16,19 +39,39 @@
     <!-- Welcome -->
     <div class="welcome-container motion-pending" data-motion="fade-right">
       <div class="img-div">
-        <img src="/img/bosqueEnHoja.webp" alt="Imagen del bosque en forma de hoja">
+        <img
+          src="/img/bosqueEnHoja.webp"
+          alt="Imagen del bosque en forma de hoja"
+        />
       </div>
       <div class="text-div">
-        <h3 class="section-title">Bienvenido al colegio de prestadores de servicios técnicos forestales</h3>
-        <p class="section-body">El Colegio de Ingenieros Forestales del Estado de Jalisco A.C somos una institución conformada para participar y colaborar en los procesos de gestión de manejo de los recursos naturales localizados en el estado de Jalisco. Está formado por 68 ingenieros forestales que se encuentran distribuidos en las regiones del estado de Jalisco, los cuales cuentan con diversas capacidades entre ellas su registro forestal nacional que los faculta para realizar trámites de gestión en el manejo de los recursos naturales ante las instituciones del medio forestal de carácter estatal y federal e internacional, específicamente entre otras en la Elaboración, Ejecución y Evaluación de Programas de Manejo Forestal.</p>
-        <h5 class="section-title">Nuestro Colegio participa en el estado en plataformas de gestión de recursos naturales, siendo algunas de ellas:</h5>
+        <h3 class="section-title">
+          Bienvenido al colegio de prestadores de servicios técnicos forestales
+        </h3>
+        <p class="section-body">
+          El Colegio de Ingenieros Forestales del Estado de Jalisco A.C somos
+          una institución conformada para participar y colaborar en los procesos
+          de gestión de manejo de los recursos naturales localizados en el
+          estado de Jalisco. Está formado por 68 ingenieros forestales que se
+          encuentran distribuidos en las regiones del estado de Jalisco, los
+          cuales cuentan con diversas capacidades entre ellas su registro
+          forestal nacional que los faculta para realizar trámites de gestión en
+          el manejo de los recursos naturales ante las instituciones del medio
+          forestal de carácter estatal y federal e internacional,
+          específicamente entre otras en la Elaboración, Ejecución y Evaluación
+          de Programas de Manejo Forestal.
+        </p>
+        <h5 class="section-title">
+          Nuestro Colegio participa en el estado en plataformas de gestión de
+          recursos naturales, siendo algunas de ellas:
+        </h5>
       </div>
     </div>
 
     <!-- Membership columns -->
     <div class="columns-container motion-pending" data-motion="fade-up">
       <div v-for="m in memberships" :key="m.title" class="column">
-        <img :src="m.img" :alt="m.alt">
+        <img :src="m.img" :alt="m.alt" />
         <h3>{{ m.title }}</h3>
         <p>{{ m.desc }}</p>
       </div>
@@ -37,7 +80,7 @@
     <!-- Our cause -->
     <div class="causes-container motion-pending" data-motion="fade-left">
       <div class="cause-col left">
-        <img src="/img/fotoCausa1.webp" alt="Colaborador del colegio">
+        <img src="/img/fotoCausa1.webp" alt="Colaborador del colegio" />
       </div>
       <div class="cause-col center">
         <h3 class="section-title">NUESTRA CAUSA</h3>
@@ -46,7 +89,10 @@
         </ul>
       </div>
       <div class="cause-col right">
-        <img src="/img/fotoCausa2.webp" alt="Personas trabajando en campo forestal">
+        <img
+          src="/img/fotoCausa2.webp"
+          alt="Personas trabajando en campo forestal"
+        />
       </div>
     </div>
 
@@ -54,11 +100,21 @@
     <div class="why-container motion-pending" data-motion="zoom-in">
       <div class="why-content">
         <h3 class="section-title">¿Por qué escogernos?</h3>
-        <p class="section-body">Contamos con más de 25 años de experiencia desarrollando e implementando proyectos de conservación y manejo forestal sustentable de recursos de flora y fauna silvestre, nuestros servicios técnicos forestales son de alta calidad a través de los cuales promovemos prácticas sostenibles adaptándonos a las necesidades de cada cliente. Durante el mismo tiempo hemos sido miembros de los diferentes consejos consultivos en los tres niveles de gobierno y colaboramos con la Dirección de Profesiones del Gobierno del Estado para el registro de sus miembros.</p>
+        <p class="section-body">
+          Contamos con más de 25 años de experiencia desarrollando e
+          implementando proyectos de conservación y manejo forestal sustentable
+          de recursos de flora y fauna silvestre, nuestros servicios técnicos
+          forestales son de alta calidad a través de los cuales promovemos
+          prácticas sostenibles adaptándonos a las necesidades de cada cliente.
+          Durante el mismo tiempo hemos sido miembros de los diferentes consejos
+          consultivos en los tres niveles de gobierno y colaboramos con la
+          Dirección de Profesiones del Gobierno del Estado para el registro de
+          sus miembros.
+        </p>
         <RouterLink to="/nosotros" class="btn btn-green">CONOCE MÁS</RouterLink>
       </div>
       <div class="why-image">
-        <img src="/img/fotoHojaCafe.webp" alt="Hoja de árbol café">
+        <img src="/img/fotoHojaCafe.webp" alt="Hoja de árbol café" />
       </div>
     </div>
 
@@ -70,7 +126,7 @@
       @touchend.passive="onTouchend"
     >
       <div class="testimonial-icon" aria-hidden="true"></div>
-      <div style="width:100%">
+      <div style="width: 100%">
         <div class="carousel-track">
           <div
             v-for="(t, i) in testimonials"
@@ -83,7 +139,13 @@
           </div>
         </div>
         <div class="carousel-controls">
-          <button class="carousel-arrow nav-arrow nav-arrow--light prev" @click="prev" aria-label="Testimonio anterior">&#8249;</button>
+          <button
+            class="carousel-arrow nav-arrow nav-arrow--light prev"
+            @click="prev"
+            aria-label="Testimonio anterior"
+          >
+            &#8249;
+          </button>
           <div class="carousel-dots">
             <button
               v-for="(_, i) in testimonials"
@@ -94,7 +156,13 @@
               :aria-label="`Testimonio ${i + 1}`"
             ></button>
           </div>
-          <button class="carousel-arrow nav-arrow nav-arrow--light next" @click="next" aria-label="Siguiente testimonio">&#8250;</button>
+          <button
+            class="carousel-arrow nav-arrow nav-arrow--light next"
+            @click="next"
+            aria-label="Siguiente testimonio"
+          >
+            &#8250;
+          </button>
         </div>
       </div>
     </div>
@@ -109,11 +177,13 @@ useMotion()
 
 const testimonials = [
   {
-    quote: '"La Asociación de Ingenieros Forestales ha sido fundamental para mejorar nuestras prácticas forestales. Recomiendo esta asociación a todos los profesionales comprometidos con el cuidado responsable de nuestros bosques."',
+    quote:
+      '"La Asociación de Ingenieros Forestales ha sido fundamental para mejorar nuestras prácticas forestales. Recomiendo esta asociación a todos los profesionales comprometidos con el cuidado responsable de nuestros bosques."',
     author: '– Javier Rodríguez, Gerente forestal'
   },
   {
-    quote: '"Gracias a su apoyo y asesoría, hemos logrado implementar prácticas de manejo forestal más efectivas en nuestras áreas de trabajo. Su equipo es confiable y altamente capacitado."',
+    quote:
+      '"Gracias a su apoyo y asesoría, hemos logrado implementar prácticas de manejo forestal más efectivas en nuestras áreas de trabajo. Su equipo es confiable y altamente capacitado."',
     author: '– Isandro Méndez, Coordinador de Programas Ambientales'
   },
   {
@@ -155,7 +225,10 @@ const causes = [
   'Promover el uso racional y manejo sustentable de los recursos naturales en el estado de Jalisco.'
 ]
 
-const { current, goTo, prev, next, onTouchstart, onTouchend } = useSlider(testimonials.length, 8000)
+const { current, goTo, prev, next, onTouchstart, onTouchend } = useSlider(
+  testimonials.length,
+  8000
+)
 </script>
 
 <style scoped>
@@ -165,7 +238,9 @@ const { current, goTo, prev, next, onTouchstart, onTouchend } = useSlider(testim
   width: 100%;
   min-height: clamp(200px, 50vw, 700px);
   overflow: hidden;
-  background-color: var(--color-green); /* ponytail: placeholder while banner image loads */
+  background-color: var(
+    --color-green
+  ); /* ponytail: placeholder while banner image loads */
 }
 
 @media (max-width: 767px) {
