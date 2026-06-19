@@ -147,11 +147,3 @@ ContactView (/contacto):
 
 NotFoundView (/:pathMatch(.*)*):
   404 page. Title: "Pagina no encontrada -- CIFEJ".
-
-
-OPEN ITEMS
-------------------------------------------------------------
-- No form backend: contact form (if present) likely needs an external service
-  (Formspree, Netlify Forms, etc.).
-- No analytics or SEO meta tags observed beyond document.title.
-- Gallery image alts are generic ("Inventario forestal 1") -- could be improved.
