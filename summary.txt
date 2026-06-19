@@ -151,9 +151,7 @@ NotFoundView (/:pathMatch(.*)*):
 
 OPEN ITEMS
 ------------------------------------------------------------
-- ContactView and AboutView not read; assume standard pattern, verify if editing.
 - No form backend: contact form (if present) likely needs an external service
   (Formspree, Netlify Forms, etc.).
 - No analytics or SEO meta tags observed beyond document.title.
-- No dark mode support (color-scheme: light is explicit).
 - Gallery image alts are generic ("Inventario forestal 1") -- could be improved.
