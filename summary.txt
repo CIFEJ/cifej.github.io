@@ -1,25 +1,27 @@
 CIFEJ -- Colegio de Ingenieros Forestales del Estado de Jalisco A.C.
-Static marketing website, deployed via GitHub Pages.
+Static marketing website, deployed via GitHub Pages (ingenierosforestales.com).
 ============================================================
-Version: 2.0.0
-Last updated: June 2026
+Version: 2.0.0  (package name: ingenierosforestales)
+Last updated: July 2026
 Local path: %USERPROFILE%\Downloads\cifej.github.io\
 
 
 STACK
 ------------------------------------------------------------
 Bundler:       Vite 8
-Runtime:       Vue 3 + Vue Router 4 (SPA with history mode, base "/")
+Runtime:       Vue 3.5 + Vue Router 5 (SPA with history mode, base "/")
 Fonts:         Raleway + Nunito via @fontsource-variable (self-hosted, no Google request)
-Animations:    Motion One (motion ^12) -- scroll-triggered via inView
-Package mgr:   bun  (scripts: dev / build / preview / format / lint)
-Linting:       ESLint 9 + eslint-config-prettier; formatter: Prettier
+               Raleway 400/700/900, Nunito 400/600/700 (no italics used).
+Animations:    Motion One (motion ^12.38) -- scroll-triggered via inView
+Package mgr:   bun  (scripts: dev / build / preview / format / lint / prettier)
+Linting:       ESLint 10 + eslint-config-prettier 10; formatter: Prettier 3
 
 
 FILE STRUCTURE
 ------------------------------------------------------------
 Root:          vite.config.js / eslint.config.js / package.json / index.html
 public/img/    All static assets: .webp images, .svg logo, favicon
+public/        robots.txt, sitemap.xml
 src/main.js    App bootstrap: createApp, router, v-lazy directive, CSS imports
 src/App.vue    Shell: <AppHeader> + <RouterView> + <AppFooter>
 src/router/    index.js -- 6 routes (/, /nosotros, /servicios, /galeria, /contacto, 404)
@@ -37,19 +39,46 @@ src/views/
   AboutView.vue      Nosotros page
   ServicesView.vue   Servicios page
   GalleryView.vue    Galeria page with lightbox
-  ContactView.vue    Contacto page
+  ContactView.vue    Contacto page (map, form, FAQ)
   NotFoundView.vue   404 page
 src/components/
-  AppHeader.vue   Logo + institution name + responsive nav (hamburger on mobile)
-  AppFooter.vue   Nav links + copyright (year computed at runtime)
+  AppHeader.vue   Institution name + logo + responsive nav (hamburger on mobile)
+  AppFooter.vue   Nav links + copyright (year computed at runtime, "Creado por CARMA")
+
+
+BUILD / DEPLOY
+------------------------------------------------------------
+vite.config.js: base "/", plugins [vue(), csp].
+  csp plugin -- build-only (apply: 'build'). Injects a Content-Security-Policy
+  <meta> at build time (not in dev, which needs inline scripts + ws for HMR).
+  Policy allows: self, inline scripts/styles, data: images, google.com frames
+  (map embed), and api.web3forms.com for form connect/action.
+Deployed to GitHub Pages. index.html includes the spa-github-pages redirect
+  shim (rewrites ?/ query back to a real path) so deep links work on Pages.
+
+
+SEO / META (index.html)
+------------------------------------------------------------
+lang="es". Static head includes: description, author, keywords, canonical,
+  full Open Graph block, Twitter Card (summary_large_image), and a JSON-LD
+  Organization schema (name, alternateName CIFEJ, founded 1999, 68 members,
+  areaServed Jalisco/MX, contact email). Favicon: /img/favicon/favicon_multi.ico.
+Per-route meta is then updated live by the router (see ROUTING).
 
 
 ROUTING
 ------------------------------------------------------------
-createWebHistory("/") -- SPA. Titles set via router.afterEach from meta.title.
-linkExactActiveClass: "active" -- underline on active nav link.
+createWebHistory("/") -- SPA. Routes lazy-loaded via import() per route.
+Each route defines meta: title, description, canonical (except 404: title only).
+  SUFFIX const = " — Colegio de Ingenieros Forestales de Jalisco"
+  BASE_URL const = "https://ingenierosforestales.com"
+router.afterEach(to) updates on every navigation:
+  - document.title
+  - <meta name="description">, og:description, twitter:description
+  - <link rel="canonical">, og:url
+  - og:title, twitter:title
+linkExactActiveClass: "active" (underline on active nav link); linkActiveClass: "".
 scrollBehavior: () => ({ top: 0 }) -- always scroll to top on navigate.
-Lazy-loaded views (import() per route).
 
 
 COMPOSABLES
@@ -57,17 +86,17 @@ COMPOSABLES
 useMotion()
   Queries all [data-motion] elements on mount.
   Supported values: fade-up, fade-down, fade-left, fade-right, zoom-in,
-    flip-left, flip-right.
+    flip-left, flip-right.  (Unknown/absent value falls back to fade-up.)
   inView fires once, removes .motion-pending, then runs Motion One animate().
   duration: 0.7s, easing: cubic-bezier(0.25, 0.46, 0.45, 0.94), margin: -80px.
   Cleanups run on unmount.
 
 useSlider(count, interval = 8000)
   Returns: current (ref), goTo, prev, next, onTouchstart, onTouchend.
-  Autoplay via setInterval; restarts on manual nav.
+  Autoplay via setInterval (interval 0 = no autoplay); restarts on manual nav.
   Touch swipe: threshold 50px.
   Modular arithmetic keeps index in range.
-  Used in: HomeView (testimonials carousel).
+  Used in: HomeView (testimonials carousel) and ServicesView (SEMARNAT slider).
 
 
 DIRECTIVES
@@ -121,29 +150,46 @@ VIEWS
 ------------------------------------------------------------
 HomeView (/):
   Sections: main hero banner, welcome text + image, membership columns (4 icons),
-  "Nuestra Causa" (3 bullet points), "Por que escogernos?" (25 years copy),
+  "Nuestra Causa" (3 bullet points), "¿Por qué escogernos?" (25 years copy),
   testimonials carousel (3 slides, 8s autoplay, touch swipe).
   Data: all inline arrays (memberships, causes, testimonials) -- no fetch.
-
-AboutView (/nosotros):
-  Content: mission/vision, team section, slider of team photos.
   Uses useMotion(), useSlider().
 
+AboutView (/nosotros):
+  Sections: Nuestra historia (founded 21 Jan 1999, 34 -> 68 members),
+  "Quiénes somos" identity paragraphs, Misión/Visión flip cards
+  (flip-left / flip-right), team section, CTA.
+  Team = scrollable card listing all 68 member names (inline array), with role
+  tags in parentheses (Presidente, Tesorero, Secretario, etc.). Not photos.
+  Uses useMotion() only (no slider here).
+
 ServicesView (/servicios):
-  Service cards with icons and descriptions.
-  Uses useMotion().
+  Sections: intro, "Trámites ante SEMARNAT" slider (11 services via useSlider,
+  8s autoplay, touch swipe), "Trámites ante CONAFOR" cards (2), CTA.
+  Data: inline arrays semarnatServices / conaforCards.
+  Uses useMotion(), useSlider().
 
 GalleryView (/galeria):
-  6 categories: Inventario (15 imgs), Aprovechamiento (6), Transformacion (15,
-    generated with Array.from), Reforestacion (9), Manejo de Plagas (6),
+  6 categories: Inventario (15 imgs), Aprovechamiento (6), Transformación (15,
+    generated with Array.from), Reforestación (9), Manejo de Plagas (6),
     Manejo de Fuego (5). Total: 56 images.
   Lazy-loaded via v-lazy directive.
   Lightbox: click to open, keyboard (Esc/arrows), touch swipe, click-outside close.
     allImages: flat array of all category images for cross-category navigation.
+    Locks body scroll while open.
   CTA section at bottom linking to /contacto.
+  Uses useMotion().
 
 ContactView (/contacto):
-  Contact form or contact info (not read; standard page pattern).
+  Sections:
+    - Google Maps embed (iframe) of the Cd. Guzmán, Jalisco office.
+    - Contact info: address, phone (tel: link), email
+      (colegioingenierosforestalesjal@gmail.com).
+    - Contact form POSTing to Web3Forms (api.web3forms.com/submit) with a hidden
+      access_key; native HTML5 validation + focus/valid/invalid styling.
+    - FAQ accordion: native <details>/<summary>, CSS-only +/- icon, 3 questions
+      (inline faqs array). No JS state.
+  Uses useMotion().
 
 NotFoundView (/:pathMatch(.*)*):
-  404 page. Title: "Pagina no encontrada -- CIFEJ".
+  404 page. Title: "Página no encontrada — CIFEJ".
