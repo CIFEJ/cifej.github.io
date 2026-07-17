@@ -21,9 +21,9 @@
 
       <section
         v-for="cat in categories"
+        :id="cat.id"
         :key="cat.id"
         class="gallery-section"
-        :id="cat.id"
       >
         <h2
           class="gallery-section-title motion-pending"
@@ -58,8 +58,8 @@
       <div class="lightbox-inner">
         <button
           class="lightbox-close"
-          @click="closeLightbox"
           aria-label="Cerrar"
+          @click="closeLightbox"
         >
           ✕
         </button>
@@ -67,15 +67,15 @@
         <div class="lightbox-nav">
           <button
             class="lightbox-prev"
-            @click="navigateLightbox(-1)"
             aria-label="Anterior"
+            @click="navigateLightbox(-1)"
           >
             &#8249;
           </button>
           <button
             class="lightbox-next"
-            @click="navigateLightbox(1)"
             aria-label="Siguiente"
+            @click="navigateLightbox(1)"
           >
             &#8250;
           </button>

@@ -141,8 +141,8 @@
         <div class="carousel-controls">
           <button
             class="carousel-arrow nav-arrow nav-arrow--light prev"
-            @click="prev"
             aria-label="Testimonio anterior"
+            @click="prev"
           >
             &#8249;
           </button>
@@ -152,14 +152,14 @@
               :key="i"
               class="carousel-dot nav-dot nav-dot--light"
               :class="{ active: current === i }"
-              @click="goTo(i)"
               :aria-label="`Testimonio ${i + 1}`"
+              @click="goTo(i)"
             ></button>
           </div>
           <button
             class="carousel-arrow nav-arrow nav-arrow--light next"
-            @click="next"
             aria-label="Siguiente testimonio"
+            @click="next"
           >
             &#8250;
           </button>

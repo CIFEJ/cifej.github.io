@@ -50,8 +50,8 @@
       <div class="slider-controls">
         <button
           class="slider-arrow nav-arrow nav-arrow--dark prev"
-          @click="semarnatPrev"
           aria-label="Anterior"
+          @click="semarnatPrev"
         >
           &#8249;
         </button>
@@ -60,13 +60,13 @@
           :key="i"
           class="dot nav-dot nav-dot--dark"
           :class="{ active: semarnatCurrent === i }"
-          @click="semarnatGoTo(i)"
           :aria-label="`Servicio ${i + 1}`"
+          @click="semarnatGoTo(i)"
         ></button>
         <button
           class="slider-arrow nav-arrow nav-arrow--dark next"
-          @click="semarnatNext"
           aria-label="Siguiente"
+          @click="semarnatNext"
         >
           &#8250;
         </button>

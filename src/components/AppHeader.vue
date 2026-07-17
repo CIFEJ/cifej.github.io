@@ -22,7 +22,7 @@
       >
         {{ isOpen ? '✕' : '☰' }}
       </button>
-      <ul class="nav-list" :class="{ open: isOpen }" id="nav-list">
+      <ul id="nav-list" class="nav-list" :class="{ open: isOpen }">
         <li><RouterLink to="/" @click="isOpen = false">Inicio</RouterLink></li>
         <li>
           <RouterLink to="/nosotros" @click="isOpen = false"
