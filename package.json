@@ -1,6 +1,6 @@
 {
   "name": "ingenierosforestales",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Sitio web del Colegio de Ingenieros Forestales del Estado de Jalisco A.C.",
   "type": "module",
   "scripts": {
@@ -23,6 +23,7 @@
     "@vitejs/plugin-vue": "^6.0.0",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-vue": "^10.0.0",
     "globals": "^17.0.0",
     "prettier": "^3.5.3",
     "vite": "^8.0.0"
